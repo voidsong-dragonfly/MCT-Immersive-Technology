@@ -67,15 +67,21 @@ minecraft {
 }
 
 repositories {
-	// JEI
-    // maven { url = "http://dvs1.progwml6.com/files/maven/" }
+	maven {
+		name = 'JEI Maven'
+		url = 'http://dvs1.progwml6.com/files/maven'
+	}
+		maven {
+		name = 'Immersive Maven'
+		url = 'http://maven.blamejared.com'
+	}
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"
-	
-    // compileOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}:api")
-    // runtimeOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}")
+	compileOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${config.imme_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}")
 }
 
 def parseConfig(File config) {
