@@ -17,6 +17,7 @@ build.bat
 .gradle
 .project
 .settings
+.idea
 /build/
 /bin/
 /run/
