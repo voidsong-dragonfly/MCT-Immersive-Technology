@@ -1,93 +1,101 @@
 buildscript {
-	repositories {
-		jcenter()
-		maven { url = "http://files.minecraftforge.net/maven" }
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+ext.configFile = file("..//common//common-1.14.properties")
+ext.config = parseConfig(configFile)
+
+version = "${config.mc_version}-${mod_version}.${mod_subversion}"
+group = "${mod_group}"
+archivesBaseName = "${mod_archivename}"
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDirs += 'src/main/resources'
+        }	
 	}
 }
 
-ext.configFile = file "../common/common-1.12.properties"
-configFile.withReader {
-	def prop = new Properties()
-	prop.load(it)
-	ext.common = new ConfigSlurper().parse prop
-}
-
-apply plugin: 'net.minecraftforge.gradle.forge'
-
-repositories {
-	maven {
-		name = 'CoFH Maven'
-		url = 'http://maven.covers1624.net/'
-	}
-	maven {
-		name = 'ChickenBones Maven'
-		url = "http://chickenbones.net/maven/"
-	}	
-	maven {
-		name = 'JEI Maven'
-		url = 'http://dvs1.progwml6.com/files/maven'
-	}
-	maven {
-		name = 'HWYLA Maven'
-		url = 'http://tehnut.info/maven'
-	}
-	maven {
-		name = 'Immersive Maven'
-		url = 'http://blamejared.com/maven'
-	}
-	maven {
-		name = 'tterrag Maven'
-		url = 'http://maven.tterrag.com/'
-	}	
-}
-
-
-version = common.mcversion + "-" + modversion+ "." + modsubversion
-group = modgroup
-archivesBaseName = modarchivename
-
-sourceCompatibility = targetCompatibility = "1.8"
-compileJava {
-	sourceCompatibility = targetCompatibility = "1.8"
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-	version = common.mcversion + "-" + common.forgeversion
-	mappings = common.mcp_mappings
-	runDir = "run"
-	replace '${version}', modversion+ "." + modsubversion
+    mappings channel: "${config.mapping_channel}", version: "${config.mapping_version}"
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+			properties 'fml.earlyprogresswindow': 'false'
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+				immersivetechnology {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                immersivetechnology {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+	// JEI
+    // maven { url = "http://dvs1.progwml6.com/files/maven/" }
 }
 
 dependencies {
-	compile "mezz.jei:jei_${common.mcversion}:${common.jei_version}"
-	deobfCompile "blusunrize:ImmersiveEngineering:${common.imme_version}"
-	deobfCompile "cofh:RedstoneFlux:${common.mcbaseversion}-${common.redf_version}:deobf"
-	deobfCompile "cofh:CoFHCore:${common.mcversion}-${common.cofh_version}:deobf"
-	deobfCompile "cofh:CoFHWorld:${common.mcversion}-${common.cwor_version}:deobf"
-	deobfCompile "cofh:ThermalFoundation:${common.mcversion}-${common.thfo_version}:deobf"
-	deobfCompile "cofh:ThermalExpansion:${common.mcversion}-${common.thex_version}:deobf"
-	deobfCompile "codechicken:CodeChickenLib:${common.mcversion}-${common.cclo_version}:deobf"
-	compileOnly "mcjty.theoneprobe:TheOneProbe-${common.mcbaseversion}:${common.mcbaseversion}-${common.top_version}"
-	compileOnly "mcp.mobius.waila:Hwyla:${common.hwya_version}"
-
-
-	compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:${common.mcbaseversion}-${common.crft_version}"
+    minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"
+	
+    // compileOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}:api")
+    // runtimeOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}")
 }
 
-processResources {
-	inputs.property "version", project.modversion + "." + project.modsubversion
-	inputs.property "mcversion", project.minecraft.version
+def parseConfig(File config) {
+    config.withReader {
+        def prop = new Properties()
+        prop.load(it)
+        return (new ConfigSlurper().parse(prop))
+    }
+}
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "mcmod.info"
-				
-		expand "version":project.modversion + "." + project.modsubversion, "mcversion":project.minecraft.version
-	}
-		
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "mcmod.info"
-	}
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "${mod_id}",
+            "Specification-Vendor": "${mod_author}",
+            "Specification-Version": "${mod_subversion}",
+            "Implementation-Title": "${mod_id}",
+            "Implementation-Version": "${mod_version}",
+            "Implementation-Vendor" :"${mod_author}",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
 }
