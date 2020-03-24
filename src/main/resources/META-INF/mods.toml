@@ -26,9 +26,9 @@ loaderVersion="[28,)"
 		ordering="NONE"
 		side="BOTH"
 
-	[[dependencies.immersivetechnology]]
-		modId="immersiveengineering"
-		mandatory=true
-		versionRange="[1.14,1.15)"
-		ordering="NONE"
-		side="BOTH"
+#	[[dependencies.immersivetechnology]]
+#		modId="immersiveengineering"
+#		mandatory=true
+#		versionRange="[0.14]"
+#		ordering="AFTER"
+#		side="BOTH"
