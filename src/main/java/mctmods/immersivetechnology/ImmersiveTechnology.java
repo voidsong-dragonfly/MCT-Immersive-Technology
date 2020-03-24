@@ -17,20 +17,10 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-@Mod(
-	modid = ImmersiveTechnology.MODID,
-	name = ImmersiveTechnology.NAME,
-	version = ImmersiveTechnology.VERSION,
-	acceptedMinecraftVersions = "[1.12.2,1.13)",	
-	dependencies = 
-			"required-after:immersiveengineering;" +
-			"required-after:cofhcore;" +
-			"required-after:redstoneflux;" +
-			"required-after:forge@[14.23.3.2655,);")
-
+@Mod(ImmersiveTechnology.MODID)
 public class ImmersiveTechnology {
 
-	public static final String MODID = "immersivetech";
+	public static final String MODID = "immersivetechnology";
 	public static final String NAME = "Immersive Technology";
 	public static final String VERSION = "${version}";
 
@@ -38,14 +28,6 @@ public class ImmersiveTechnology {
 	public static CommonProxy proxy;
 	public static final SimpleNetworkWrapper packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 
-	@Instance(MODID)
-	public static ImmersiveTechnology instance;
-
-	static {
-		FluidRegistry.enableUniversalBucket();
-	}
-
-	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ITLogger.logger = event.getModLog();
 		Config.preInit(event);
@@ -54,7 +36,6 @@ public class ImmersiveTechnology {
 		ITCompatModule.doModulesPreInit();
 	}
 
-	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		ITContent.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
@@ -65,19 +46,16 @@ public class ImmersiveTechnology {
 		proxy.initEnd();
 	}
 
-	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit();
 		ITCompatModule.doModulesPostInit();
 		proxy.postInitEnd();
 	}
 
-	@EventHandler
 	public void loadComplete(FMLLoadCompleteEvent event) {
 		ITCompatModule.doModulesLoadComplete();
 	}
 
-	@EventHandler
 	public void serverStarted(FMLServerStartedEvent event) {
 	}
 
