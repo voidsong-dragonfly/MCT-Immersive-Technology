@@ -2,37 +2,32 @@ package mctmods.immersivetechnology.common;
 
 import blusunrize.immersiveengineering.api.MultiblockHandler;
 import blusunrize.immersiveengineering.common.Config;
-import blusunrize.immersiveengineering.common.IEContent;
 import blusunrize.immersiveengineering.common.blocks.BlockIEBase;
 import mctmods.immersivetechnology.ImmersiveTechnology;
 import mctmods.immersivetechnology.api.crafting.*;
-import mctmods.immersivetechnology.common.Config.ITConfig.Experimental;
 import mctmods.immersivetechnology.common.Config.ITConfig.Machines.*;
 import mctmods.immersivetechnology.common.Config.ITConfig.MechanicalEnergy;
 import mctmods.immersivetechnology.common.blocks.BlockITBase;
 import mctmods.immersivetechnology.common.blocks.BlockITFluid;
-import mctmods.immersivetechnology.common.blocks.BlockITSlab;
 import mctmods.immersivetechnology.common.blocks.BlockValve;
 import mctmods.immersivetechnology.common.blocks.connectors.BlockConnectors;
 import mctmods.immersivetechnology.common.blocks.connectors.tileentities.TileEntityTimer;
-import mctmods.immersivetechnology.common.blocks.metal.*;
+import mctmods.immersivetechnology.common.blocks.metal.BlockMetalBarrel;
+import mctmods.immersivetechnology.common.blocks.metal.BlockMetalMultiblock;
+import mctmods.immersivetechnology.common.blocks.metal.BlockMetalTrash;
+import mctmods.immersivetechnology.common.blocks.metal.blockMetalMultiblock1;
 import mctmods.immersivetechnology.common.blocks.metal.multiblocks.*;
 import mctmods.immersivetechnology.common.blocks.metal.tileentities.*;
-import mctmods.immersivetechnology.common.blocks.metal.tileentities.conversion.*;
-import mctmods.immersivetechnology.common.blocks.stone.BlockStoneDecoration;
-import mctmods.immersivetechnology.common.blocks.stone.types.BlockType_StoneDecoration;
 import mctmods.immersivetechnology.common.blocks.wooden.BlockWoodenCrate;
 import mctmods.immersivetechnology.common.blocks.wooden.tileentities.TileEntityCrate;
 import mctmods.immersivetechnology.common.fluid.FluidColored;
 import mctmods.immersivetechnology.common.items.ItemITBase;
 import mctmods.immersivetechnology.common.tileentities.TileEntityFluidValve;
-import mctmods.immersivetechnology.common.tileentities.TileEntityITSlab;
 import mctmods.immersivetechnology.common.tileentities.TileEntityLoadController;
 import mctmods.immersivetechnology.common.tileentities.TileEntityStackLimiter;
 import mctmods.immersivetechnology.common.util.ITLogger;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -67,12 +62,6 @@ public class ITContent {
 	public static BlockITBase<?> blockMetalTrash;
 	public static BlockITBase<?> blockMetalBarrel;
 	public static BlockITBase<?> blockValve;
-	public static BlockIEBase<?> blockMetalDevice0Dummy;
-	public static BlockIEBase<?> blockMetalDevice1Dummy;
-
-	/*STONE*/
-	public static BlockITBase<?> blockStoneDecoration;
-	public static BlockITBase<?> blockStoneDecorationSlab;
 
 	/*WOODEN*/
 	public static BlockITBase<?> blockWoodenCrate;
@@ -122,10 +111,6 @@ public class ITContent {
 		blockMetalBarrel = new BlockMetalBarrel();
 		blockValve = new BlockValve();
 
-		/*STONE*/
-		blockStoneDecoration = new BlockStoneDecoration();
-		blockStoneDecorationSlab = (BlockITBase<?>) new BlockITSlab<>("stone_decoration_slab", Material.ROCK, PropertyEnum.create("type", BlockType_StoneDecoration.class)).setMetaExplosionResistance(BlockType_StoneDecoration.COKEBRICK_REINFORCED.getMeta(), 180).setHardness(2.0F).setResistance(10.0F);
-
 		/*WOODEN*/
 		blockWoodenCrate = new BlockWoodenCrate();
 
@@ -158,30 +143,10 @@ public class ITContent {
 		
 		/*MANUAL*/
 		registerVariables();
-
-		if(Experimental.replace_IE_pipes) {
-			blockMetalDevice0Dummy = IEContent.blockMetalDevice0;
-			IEContent.blockMetalDevice0.setCreativeTab(null);
-			IEContent.blockMetalDevice0.setRegistryName("immersiveengineering", "metaldevice0dummy");
-			IEContent.blockMetalDevice0.setUnlocalizedName("immersiveengineering.metaldevice0dummy");
-			IEContent.registeredIEItems.remove(Item.getItemFromBlock(IEContent.blockMetalDevice0));
-			IEContent.registeredIEBlocks.remove(IEContent.blockMetalDevice0);
-			IEContent.blockMetalDevice0 = new BlockMetalDevice0();
-
-			blockMetalDevice1Dummy = IEContent.blockMetalDevice1;
-			IEContent.blockMetalDevice1.setCreativeTab(null);
-			IEContent.blockMetalDevice1.setRegistryName("immersiveengineering", "metaldevice1dummy");
-			IEContent.blockMetalDevice1.setUnlocalizedName("immersiveengineering.metaldevice1dummy");
-			IEContent.registeredIEItems.remove(Item.getItemFromBlock(IEContent.blockMetalDevice1));
-			IEContent.registeredIEBlocks.remove(IEContent.blockMetalDevice1);
-			IEContent.blockMetalDevice1 = new BlockMetalDevice1();
-			ITLogger.info("Replaced IE Pipes with IT Pipes");
-		}
 	}
 
 	public static void init() {
 		/*TILE ENTITIES*/
-		registerTile(TileEntityITSlab.class);
 		registerTile(TileEntityTimer.class);
 		registerTile(TileEntityTrashItem.class);
 		registerTile(TileEntityTrashFluid.class);
@@ -193,15 +158,6 @@ public class ITContent {
 		registerTile(TileEntityFluidValve.class);
 		registerTile(TileEntityLoadController.class);
 		registerTile(TileEntityStackLimiter.class);
-
-		//MORE TEMPORARY STUFF
-		registerTile(TileEntityAlternator.class);
-		registerTile(TileEntitySteamTurbine.class);
-		registerTile(TileEntityBoiler.class);
-		registerTile(TileEntityDistiller.class);
-		registerTile(TileEntitySolarTower.class);
-		registerTile(TileEntitySolarReflector.class);
-		registerTile(TileEntityHighPressureSteamTurbine.class);
 
 		if(Multiblock.enable_boiler) {
 			registerTile(TileEntityBoilerSlave.class);
@@ -282,19 +238,9 @@ public class ITContent {
 			MultiblockHandler.registerMultiblock(MultiblockSolarMelter.instance);
 		}
 
-		registerTile(TileEntitySteelSheetmetalTank.class);
 		registerTile(TileEntitySteelSheetmetalTankSlave.class);
 		registerTile(TileEntitySteelSheetmetalTankMaster.class);
 		MultiblockHandler.registerMultiblock(MultiblockSteelSheetmetalTank.instance);
-		if(Experimental.replace_IE_pipes) {
-			normallyPressurized.add(FluidRegistry.getFluid("steam"));
-			normallyPressurized.add(FluidRegistry.getFluid("fluegas"));
-			normallyPressurized.add(FluidRegistry.getFluid("exhauststeam"));
-			normallyPressurized.add(FluidRegistry.getFluid("highpressuresteam"));
-			IEHijackedRegisterTile(TileEntityFluidPumpAlternative.class, "FluidPump");
-			TileEntityFluidPipeAlternative.initCovers();
-			IEHijackedRegisterTile(TileEntityFluidPipeAlternative.class, "FluidPipe");
-		}
 	}
 
 	@SubscribeEvent
@@ -366,12 +312,6 @@ public class ITContent {
 		String tileEntity = tile.getSimpleName();
 		tileEntity = tileEntity.substring(tileEntity.indexOf("TileEntity") + "TileEntity".length());
 		GameRegistry.registerTileEntity(tile, ImmersiveTechnology.MODID + ":" + tileEntity);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static void IEHijackedRegisterTile(Class<? extends TileEntity> tile, String name) {
-		GameRegistry.registerTileEntity(tile, "immersiveengineering:" + name);
-		IEContent.registeredIETiles.add(tile);
 	}
 
 	@SubscribeEvent

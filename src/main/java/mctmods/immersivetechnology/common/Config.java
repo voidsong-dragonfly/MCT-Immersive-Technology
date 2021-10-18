@@ -9,7 +9,6 @@ public class Config {
 		public static Machines machines;
 		public static MechanicalEnergy mechanicalenergy;
 		public static Barrels barrels;
-		public static Experimental experimental;
 
 		public static class Machines {
 			public static Multiblock multiblock;
@@ -197,8 +196,6 @@ public class Config {
 				public static int highPressureSteamTurbine_speed_lossPerTick = 6;
 				@Comment({"How fast should the Steam Turbine's axle rotate in degrees per tick (purely cosmetic) [Default=72]"})
 				public static float highPressureSteamTurbine_speed_maxRotation = 72;
-				@Comment({"Should the steam turbine use tungsten, if it exists? Otherwise the turbine will use nickel [Default=true]"})
-				public static boolean highPressureSteamTurbine_turbine_material = true;
 			}
 			public static class ElectrolyticCrucibleBattery {
 				@Comment({"The capacity of the input tanks for the Electrolytic Crucible Battery [Default=10000]"})
@@ -242,18 +239,8 @@ public class Config {
 			public static int barrel_steel_tankSize = 24000;
 			@Comment({"How fast can the Steel Barrel push fluids out, in mB [Default=500]"})
 			public static int barrel_steel_transferSpeed = 500;
-		}
-		public static class Experimental {
 			@Comment({"Should the text overlay for trash cans be per tick rather than per second? [Default=false]"})
 			public static boolean per_tick_trash_cans = false;
-			@Comment({"Replace IE pipes with IT's own version. [Default=true]"})
-			public static boolean replace_IE_pipes = true;
-			@Comment({"Should pipes use round robin(false), which is more CPU intensive, or last served(true), which remembers the last valid path[Default=false]"})
-			public static boolean pipe_last_served = false;
-			@Comment({"How much should the pipes be capable of transfering, in mb. [Default=50]"})
-			public static int pipe_transfer_rate = 50;
-			@Comment({"How much should the pipes be capable of transfering when pressurized, in mb. [Default=1000]"})
-			public static int pipe_pressurized_transfer_rate = 1000;
 		}
 	}
 

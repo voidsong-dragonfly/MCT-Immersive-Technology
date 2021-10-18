@@ -11,7 +11,6 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.IFluidTank;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -130,13 +129,6 @@ public class ITUtils {
 				break;
 		}
 		throw new IllegalArgumentException("This part of the code should never be reached! Has EnumFacing changed ? ");
-	}
-
-	public static <T> T First(ArrayList<T> list, Object o) {
-		for(T item : list) {
-			if(item.equals(o)) return item;
-		}
-		return null;
 	}
 
 	public static double[] smartBoundingBox(double A, double B, double C, double D, double minY, double maxY, EnumFacing fl, EnumFacing fw) {

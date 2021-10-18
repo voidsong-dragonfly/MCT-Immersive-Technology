@@ -78,7 +78,7 @@ public class TileEntityTrashFluid extends TileEntityCommonOSD implements IFluidT
 
 	@Override
 	public TranslationKey text() {
-		return Config.ITConfig.Experimental.per_tick_trash_cans?
+		return Config.ITConfig.Barrels.per_tick_trash_cans?
 				TranslationKey.OVERLAY_OSD_TRASH_FLUID_NORMAL_ALTERNATIVE :
 				TranslationKey.OVERLAY_OSD_TRASH_FLUID_NORMAL_FIRST_LINE;
 	}

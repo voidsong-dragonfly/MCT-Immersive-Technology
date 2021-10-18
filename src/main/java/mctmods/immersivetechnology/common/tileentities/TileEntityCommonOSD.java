@@ -57,7 +57,7 @@ public abstract class TileEntityCommonOSD extends TileEntityIEBase implements IT
 			BinaryMessageTileSync.sendToServer(getPos(), message);
 			requestCooldown = 20;
 		}
-		return new String[]{ text().format(Config.ITConfig.Experimental.per_tick_trash_cans? ((float)lastAcceptedAmount)/20 : lastAcceptedAmount) };
+		return new String[]{ text().format(Config.ITConfig.Barrels.per_tick_trash_cans? ((float)lastAcceptedAmount)/20 : lastAcceptedAmount) };
 	}
 
 	@Override

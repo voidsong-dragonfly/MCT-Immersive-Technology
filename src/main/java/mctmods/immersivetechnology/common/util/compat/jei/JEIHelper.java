@@ -2,9 +2,7 @@ package mctmods.immersivetechnology.common.util.compat.jei;
 
 import mctmods.immersivetechnology.api.crafting.*;
 import mctmods.immersivetechnology.api.crafting.BoilerRecipe.BoilerFuelRecipe;
-import mctmods.immersivetechnology.common.Config.ITConfig.Experimental;
 import mctmods.immersivetechnology.common.Config.ITConfig.Machines.Multiblock;
-import mctmods.immersivetechnology.common.ITContent;
 import mctmods.immersivetechnology.common.util.compat.ITCompatModule;
 import mctmods.immersivetechnology.common.util.compat.jei.boiler.BoilerFuelRecipeCategory;
 import mctmods.immersivetechnology.common.util.compat.jei.boiler.BoilerRecipeCategory;
@@ -25,7 +23,6 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
@@ -78,11 +75,6 @@ public class JEIHelper implements IModPlugin {
 	@Override
 	public void register(IModRegistry registryIn) {
 		modRegistry = registryIn;
-
-		if(Experimental.replace_IE_pipes) {
-			registryIn.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(ITContent.blockMetalDevice0Dummy, 1, 0));
-			registryIn.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(ITContent.blockMetalDevice1Dummy, 1, 0));
-		}
 
 		for(ITRecipeCategory<Object, IRecipeWrapper> cat : categories.values()) {
 			cat.addCatalysts(registryIn);

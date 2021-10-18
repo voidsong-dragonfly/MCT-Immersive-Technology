@@ -175,7 +175,7 @@ public class TileEntityTrashItem extends TileEntityCommonOSD implements IItemHan
 
 	@Override
 	public TranslationKey text() {
-		return Config.ITConfig.Experimental.per_tick_trash_cans?
+		return Config.ITConfig.Barrels.per_tick_trash_cans?
 				TranslationKey.OVERLAY_OSD_TRASH_ITEM_NORMAL_ALTERNATIVE :
 				TranslationKey.OVERLAY_OSD_TRASH_ITEM_NORMAL_FIRST_LINE;
 	}

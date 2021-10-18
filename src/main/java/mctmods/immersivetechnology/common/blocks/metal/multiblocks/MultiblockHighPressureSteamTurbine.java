@@ -6,6 +6,8 @@ import blusunrize.immersiveengineering.api.MultiblockHandler.IMultiblock;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.client.ClientUtils;
 import blusunrize.immersiveengineering.common.IEContent;
+import blusunrize.immersiveengineering.common.blocks.BlockTypes_MetalsAll;
+import blusunrize.immersiveengineering.common.blocks.BlockTypes_MetalsIE;
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecoration0;
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecoration1;
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDevice1;
@@ -30,9 +32,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 	public static MultiblockHighPressureSteamTurbine instance = new MultiblockHighPressureSteamTurbine();
 
-	static String blockOreName = (HighPressureSteamTurbine.highPressureSteamTurbine_turbine_material) ? (OreDictionary.doesOreNameExist("blockTungsten") ? "blockTungsten" : "blockNickel") : "blockNickel";
-	static String sheetmetalOreName = (HighPressureSteamTurbine.highPressureSteamTurbine_turbine_material) ? (OreDictionary.doesOreNameExist("blockSheetmetalTungsten") ? "blockSheetmetalTungsten" : "blockSheetmetalNickel") : "blockSheetmetalNickel";
-
 	static ItemStack[][][] structure = new ItemStack[4][10][3];
 	static {
 		for(int h = 0 ; h < 4 ; h ++) {
@@ -45,11 +44,11 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 						} else if(l == 3 || l == 5 || l == 8) {
 							structure[h][l][w] = new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta());
 						} else {
-							structure[h][l][w] = OreDictionary.getOres(sheetmetalOreName, false).get(0);
+							structure[h][l][w] = new ItemStack(IEContent.blockSheetmetal, 1, BlockTypes_MetalsAll.NICKEL.getMeta());
 						}
 					} else if(h == 1) {
 						if(w == 1) {
-							structure[h][l][w] = OreDictionary.getOres(blockOreName, false).get(0);
+							structure[h][l][w] = new ItemStack(IEContent.blockStorage, 1, BlockTypes_MetalsIE.NICKEL.getMeta());
 						} else if(w == 2 && l == 0) {
 							structure[h][l][w] = new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta());
 						} else if(w == 0 && l < 3) {
@@ -57,7 +56,7 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 						} else if(l == 3 || l == 5 || l == 8) {
 							structure[h][l][w] = new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta());
 						} else {
-							structure[h][l][w] = OreDictionary.getOres(sheetmetalOreName, false).get(0);
+							structure[h][l][w] = new ItemStack(IEContent.blockSheetmetal, 1, BlockTypes_MetalsAll.NICKEL.getMeta());
 						}
 					} else if(h == 2) {
 						if(l == 0) {
@@ -65,7 +64,7 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 						} else if(l == 3 || l == 5 || l == 8) {
 							structure[h][l][w] = new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta());
 						} else {
-							structure[h][l][w] = OreDictionary.getOres(sheetmetalOreName, false).get(0);
+							structure[h][l][w] = new ItemStack(IEContent.blockSheetmetal, 1, BlockTypes_MetalsAll.NICKEL.getMeta());
 						}
 					} else {
 						if(l == 3) {
@@ -89,7 +88,7 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 
 	@Override
 	public boolean isBlockTrigger(IBlockState state) {
-		return Utils.compareToOreName(new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)), blockOreName);
+		return Utils.compareToOreName(new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)), "blockNickel");
 	}
 
 	@Override
@@ -144,11 +143,11 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 						} else if(l == 3 || l == 5 || l == 8) {
 							if(!Utils.isBlockAt(world, pos, IEContent.blockMetalDecoration0, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())) return false;
 						} else {
-							if(!Utils.isOreBlockAt(world, pos, sheetmetalOreName)) return false;
+							if(!Utils.isOreBlockAt(world, pos, "blockSheetmetalNickel")) return false;
 						}
 					} else if(h == 0) {
 						if(w == 0) {
-							if(!Utils.isOreBlockAt(world, pos, blockOreName)) return false;
+							if(!Utils.isOreBlockAt(world, pos, "blockNickel")) return false;
 						} else if(w == 1 && l == 0) {
 							if(!Utils.isBlockAt(world, pos, IEContent.blockMetalDecoration0, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta())) return false;
 						} else if(w == - 1 && l < 3) {
@@ -156,7 +155,7 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 						} else if(l == 3 || l == 5 || l == 8) {
 							if(!Utils.isBlockAt(world, pos, IEContent.blockMetalDecoration0, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())) return false;
 						} else {
-							if(!Utils.isOreBlockAt(world, pos, sheetmetalOreName)) return false;
+							if(!Utils.isOreBlockAt(world, pos, "blockSheetmetalNickel")) return false;
 						}
 					} else if(h == 1) {
 						if(l == 0) {
@@ -164,7 +163,7 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 						} else if(l == 3 || l == 5 || l == 8) {
 							if(!Utils.isBlockAt(world, pos, IEContent.blockMetalDecoration0, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())) return false;
 						} else {
-							if(!Utils.isOreBlockAt(world, pos, sheetmetalOreName)) return false;
+							if(!Utils.isOreBlockAt(world, pos, "blockSheetmetalNickel")) return false;
 						}
 					} else {
 						if(l == 3) {
@@ -185,13 +184,13 @@ public class MultiblockHighPressureSteamTurbine implements IMultiblock {
 	}
 
 	static final IngredientStack[] materials = new IngredientStack[] {
-		new IngredientStack("scaffoldingSteel", 3), 
-		new IngredientStack(new ItemStack(IEContent.blockMetalDevice1, 6, BlockTypes_MetalDevice1.FLUID_PIPE.getMeta())), 
-		new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta())), 
-		new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 24, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())), 
-		new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 4, BlockTypes_MetalDecoration0.RADIATOR.getMeta())), 
-		new IngredientStack(sheetmetalOreName, 27),
-		new IngredientStack(blockOreName, 10)
+		new IngredientStack("scaffoldingSteel", 3),
+		new IngredientStack(new ItemStack(IEContent.blockMetalDevice1, 6, BlockTypes_MetalDevice1.FLUID_PIPE.getMeta())),
+		new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta())),
+		new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 24, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())),
+		new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 4, BlockTypes_MetalDecoration0.RADIATOR.getMeta())),
+		new IngredientStack("blockSheetmetalNickel", 27),
+		new IngredientStack("blockNickel", 10)
 	};
 
 	@Override
